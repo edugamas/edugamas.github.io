@@ -2,8 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Eduardo Gamas | Técnico Informático</title>
+  <title>Eduardo Gamas | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,36 +12,49 @@
       background: #f4f4f4;
       color: #333;
     }
+
     header {
       background: #0d1117;
-      color: #fff;
+      color: white;
       padding: 40px 20px;
       text-align: center;
     }
-    section {
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab {
+      padding: 15px 25px;
+      cursor: pointer;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      border-bottom: 3px solid #0969da;
+      color: #0969da;
+    }
+
+    .content {
       max-width: 900px;
       margin: auto;
       padding: 30px 20px;
+      display: none;
     }
-    h2 {
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 5px;
+
+    .content.active {
+      display: block;
     }
-    .project {
-      background: #fff;
+
+    .card {
+      background: white;
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 8px;
-    }
-    a {
-      color: #0969da;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #ddd;
     }
   </style>
 </head>
@@ -52,42 +66,58 @@
   <p>Soporte Técnico • Hardware • Redes • Programación Básica</p>
 </header>
 
-<section>
+<div class="tabs">
+  <div class="tab active" onclick="showTab('about')">Sobre mí</div>
+  <div class="tab" onclick="showTab('projects')">Proyectos</div>
+  <div class="tab" onclick="showTab('contact')">Contacto</div>
+</div>
+
+<div id="about" class="content active">
   <h2>Sobre mí</h2>
   <p>
     Soy Técnico Informático y estudiante de Ingeniería en Computación en la UNaM.
     Tengo experiencia en soporte técnico, mantenimiento de equipos, redes LAN y
     programación básica. Busco mi primera oportunidad profesional en el sector IT.
   </p>
-</section>
+</div>
 
-<section>
+<div id="projects" class="content">
   <h2>Proyectos y Prácticas</h2>
 
-  <div class="project">
+  <div class="card">
     <h3>Armado y Testeo de Cable de Red RJ-45</h3>
     <p>Crimpado de cable UTP utilizando norma T568B y testeo de conectividad.</p>
   </div>
 
-  <div class="project">
+  <div class="card">
     <h3>Soporte Técnico y Mantenimiento de PC</h3>
     <p>Diagnóstico, limpieza, reparación e instalación de sistemas Windows.</p>
   </div>
+</div>
 
-</section>
-
-<section>
+<div id="contact" class="content">
   <h2>Contacto</h2>
   <p>
-    📍 Oberá, Misiones<br>
-    📧 <a href="mailto:edugb65@gmail.com">edugb65@gmail.com</a><br>
-    🌐 <a href="https://edugamasblog.blogspot.com" target="_blank">Blog de prácticas</a>
+    📍 Oberá, Misiones<br><br>
+    📧 <a href="mailto:edugb65@gmail.com">edugb65@gmail.com</a><br><br>
+    🌐 <a href="https://edugamasblog.blogspot.com" target="_blank">
+      Blog de prácticas
+    </a>
   </p>
-</section>
+</div>
 
-<footer>
-  © 2026 – Eduardo Gamas
-</footer>
+<script>
+  function showTab(tabId) {
+    const contents = document.querySelectorAll('.content');
+    const tabs = document.querySelectorAll('.tab');
+
+    contents.forEach(c => c.classList.remove('active'));
+    tabs.forEach(t => t.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
 
 </body>
 </html>
