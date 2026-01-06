@@ -65,6 +65,7 @@
     /* Cada sección ocupa el 100% del ancho disponible */
     section {
       width: 100%;
+      min-width: 100%;
       flex-shrink: 0; /* Evita que se encojan */
       padding: 30px 20px;
       box-sizing: border-box; /* El padding no aumenta el ancho total */
@@ -132,33 +133,56 @@
 </div>
 
 <script>
-  function activateTab() {
-    // 1. Obtener el hash actual o usar 'sobre-mi' por defecto
-    const hash = window.location.hash || '#sobre-mi';
-    
-    // 2. Definir el orden de las pestañas para saber cuánto deslizar
-    const sectionsOrder = ['#sobre-mi', '#proyectos', '#contacto'];
-    let index = sectionsOrder.indexOf(hash);
+  // Definimos el orden exacto de las pestañas
+  const sectionsOrder = ['#sobre-mi', '#proyectos', '#contacto'];
 
-    // Si el hash no existe en nuestra lista (ej. un link roto), volvemos al primero
+  function updateSlider(hash) {
+    // 1. Encontrar en qué posición (0, 1 o 2) está el hash
+    let index = sectionsOrder.indexOf(hash);
+    
+    // Si no encuentra el hash (o está vacío), va al primero (0)
     if (index === -1) index = 0;
 
-    // 3. Mover el slider: 
-    // Si index es 0 -> translateX(0%)
-    // Si index es 1 -> translateX(-100%)
-    // Si index es 2 -> translateX(-200%)
+    // 2. Mover el contenedor la cantidad exacta de porcentaje
     const slider = document.getElementById('slider');
     slider.style.transform = `translateX(-${index * 100}%)`;
 
-    // 4. Actualizar la clase "active" en el menú de navegación
+    // 3. Pintar la pestaña activa en el menú
     document.querySelectorAll('nav a').forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === hash);
+      // Quitamos la clase active de todos
+      link.classList.remove('active');
+      // Si el link coincide con el hash actual, le ponemos active
+      if (link.getAttribute('href') === hash) {
+        link.classList.add('active');
+      }
     });
   }
 
-  // Escuchar cambios en la URL y al cargar la página
-  window.addEventListener('hashchange', activateTab);
-  window.addEventListener('load', activateTab);
+  // EVENTO 1: Cuando hacemos CLIC en el menú
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault(); // <--- LA CLAVE: Evita que el navegador salte de golpe
+      
+      const targetHash = this.getAttribute('href');
+      
+      // Actualizamos la URL manualmente sin recargar
+      history.pushState(null, null, targetHash);
+      
+      // Ejecutamos nuestra función de deslizar
+      updateSlider(targetHash);
+    });
+  });
+
+  // EVENTO 2: Cuando la página carga por primera vez
+  window.addEventListener('load', () => {
+    const currentHash = window.location.hash || '#sobre-mi';
+    updateSlider(currentHash);
+  });
+
+  // EVENTO 3: Por si el usuario usa los botones "Atrás" o "Adelante" del navegador
+  window.addEventListener('popstate', () => {
+    updateSlider(window.location.hash);
+  });
 </script>
 
 </body>
