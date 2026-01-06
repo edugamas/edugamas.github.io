@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,38 +21,39 @@
       text-align: center;
     }
 
-    .tabs {
+    nav {
       display: flex;
       justify-content: center;
-      background: #ffffff;
+      background: #fff;
       border-bottom: 1px solid #ddd;
     }
 
-    .tab {
+    nav a {
       padding: 15px 25px;
-      cursor: pointer;
+      text-decoration: none;
+      color: #333;
       font-weight: bold;
       border-bottom: 3px solid transparent;
     }
 
-    .tab.active {
-      border-bottom: 3px solid #0969da;
+    nav a.active {
       color: #0969da;
+      border-bottom: 3px solid #0969da;
     }
 
-    .content {
+    section {
       max-width: 900px;
       margin: auto;
       padding: 30px 20px;
       display: none;
     }
 
-    .content.active {
+    section.active {
       display: block;
     }
 
     .card {
-      background: white;
+      background: #fff;
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 8px;
@@ -66,22 +68,22 @@
   <p>Soporte Técnico • Hardware • Redes • Programación Básica</p>
 </header>
 
-<div class="tabs">
-  <div class="tab active" onclick="showTab('about')">Sobre mí</div>
-  <div class="tab" onclick="showTab('projects')">Proyectos</div>
-  <div class="tab" onclick="showTab('contact')">Contacto</div>
-</div>
+<nav>
+  <a href="#sobre-mi" id="tab-sobre-mi">Sobre mí</a>
+  <a href="#proyectos" id="tab-proyectos">Proyectos</a>
+  <a href="#contacto" id="tab-contacto">Contacto</a>
+</nav>
 
-<div id="about" class="content active">
+<section id="sobre-mi">
   <h2>Sobre mí</h2>
   <p>
     Soy Técnico Informático y estudiante de Ingeniería en Computación en la UNaM.
     Tengo experiencia en soporte técnico, mantenimiento de equipos, redes LAN y
     programación básica. Busco mi primera oportunidad profesional en el sector IT.
   </p>
-</div>
+</section>
 
-<div id="projects" class="content">
+<section id="proyectos">
   <h2>Proyectos y Prácticas</h2>
 
   <div class="card">
@@ -93,30 +95,32 @@
     <h3>Soporte Técnico y Mantenimiento de PC</h3>
     <p>Diagnóstico, limpieza, reparación e instalación de sistemas Windows.</p>
   </div>
-</div>
+</section>
 
-<div id="contact" class="content">
+<section id="contacto">
   <h2>Contacto</h2>
   <p>
     📍 Oberá, Misiones<br><br>
     📧 <a href="mailto:edugb65@gmail.com">edugb65@gmail.com</a><br><br>
-    🌐 <a href="https://edugamasblog.blogspot.com" target="_blank">
-      Blog de prácticas
-    </a>
+    🌐 <a href="https://edugamasblog.blogspot.com" target="_blank">Blog de prácticas</a>
   </p>
-</div>
+</section>
 
 <script>
-  function showTab(tabId) {
-    const contents = document.querySelectorAll('.content');
-    const tabs = document.querySelectorAll('.tab');
+  function activateTab() {
+    const hash = window.location.hash || '#sobre-mi';
 
-    contents.forEach(c => c.classList.remove('active'));
-    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('section').forEach(sec => {
+      sec.classList.toggle('active', '#' + sec.id === hash);
+    });
 
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
+    document.querySelectorAll('nav a').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === hash);
+    });
   }
+
+  window.addEventListener('hashchange', activateTab);
+  window.addEventListener('load', activateTab);
 </script>
 
 </body>
